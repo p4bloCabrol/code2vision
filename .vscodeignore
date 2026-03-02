@@ -1,0 +1,12 @@
+src/**
+webview-ui/src/**
+webview-ui/node_modules/**
+webview-ui/index.html
+webview-ui/vite.config.ts
+webview-ui/tsconfig.json
+.vscode/**
+.gitignore
+tsconfig.json
+mcp.json
+**/*.map
+node_modules/**

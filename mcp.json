@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "code2vision": {
+      "command": "node",
+      "args": ["./dist/mcp/server-entry.js"]
+    },
+    "figma": {
+      "command": "npx",
+      "args": ["-y", "@figma/mcp-server"],
+      "env": {
+        "FIGMA_ACCESS_TOKEN": "${env:FIGMA_ACCESS_TOKEN}"
+      }
+    }
+  }
+}

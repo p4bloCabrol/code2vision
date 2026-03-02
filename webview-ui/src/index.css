@@ -1,0 +1,138 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  color: var(--vscode-foreground);
+  background: var(--vscode-editor-background);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 12px;
+  gap: 12px;
+}
+
+.app-header h1 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--vscode-foreground);
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Status Panel */
+.status-panel {
+  padding: 10px;
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 4px;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.status-label {
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.status-iteration {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.status-url {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+  font-family: var(--vscode-editor-font-family);
+  margin-bottom: 4px;
+}
+
+.status-message {
+  font-size: 12px;
+}
+
+/* Logs Panel */
+.logs-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.logs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.logs-header button {
+  background: none;
+  border: none;
+  color: var(--vscode-descriptionForeground);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 2px 6px;
+}
+
+.logs-header button:hover {
+  color: var(--vscode-foreground);
+}
+
+.logs-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px;
+  font-family: var(--vscode-editor-font-family);
+  font-size: 11px;
+}
+
+.logs-empty {
+  color: var(--vscode-descriptionForeground);
+  padding: 8px;
+}
+
+.log-entry {
+  display: flex;
+  gap: 6px;
+  padding: 2px 0;
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+.log-level {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.log-message {
+  word-break: break-word;
+}

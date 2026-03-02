@@ -1,0 +1,84 @@
+{
+  "name": "code2vision",
+  "displayName": "code2vision",
+  "description": "Gives Claude Code visual access to your browser render and console for automated pixel-perfect QA",
+  "version": "0.1.0",
+  "publisher": "p4bloCabrol",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "keywords": ["claude", "qa", "visual testing", "figma", "mcp"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/p4bloCabrol/code2vision.git"
+  },
+  "license": "MIT",
+  "activationEvents": ["onStartupFinished"],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "code2vision.openPreview",
+        "title": "code2vision: Open Preview Panel"
+      },
+      {
+        "command": "code2vision.startMcpServer",
+        "title": "code2vision: Start MCP Server"
+      },
+      {
+        "command": "code2vision.stopMcpServer",
+        "title": "code2vision: Stop MCP Server"
+      },
+      {
+        "command": "code2vision.showLogs",
+        "title": "code2vision: Show Browser Logs"
+      }
+    ],
+    "configuration": {
+      "title": "code2vision",
+      "properties": {
+        "code2vision.devServerUrl": {
+          "type": "string",
+          "default": "http://localhost:5173",
+          "description": "URL of your running dev server"
+        },
+        "code2vision.screenshotDelay": {
+          "type": "number",
+          "default": 500,
+          "description": "Milliseconds to wait after reload before taking a screenshot"
+        },
+        "code2vision.maxQAIterations": {
+          "type": "number",
+          "default": 10,
+          "description": "Maximum QA loop iterations before requesting human intervention"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "npm run build:extension && npm run build:webview",
+    "build:extension": "esbuild src/extension.ts src/mcp/server-entry.ts --bundle --outdir=dist --external:vscode --external:playwright --format=cjs --platform=node",
+    "build:webview": "cd webview-ui && npm run build",
+    "watch": "npm run watch:extension & npm run watch:webview",
+    "watch:extension": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:playwright --format=cjs --platform=node --watch",
+    "watch:webview": "cd webview-ui && npm run dev",
+    "test": "vitest run",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "esbuild": "^0.20.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "playwright": "^1.41.0"
+  }
+}
