@@ -1,16 +1,29 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import type { BrowserManager } from '../../browser/manager'
 
-// Capture tool registrations
 type ToolHandler = (args: Record<string, unknown>) => Promise<unknown>
-const registeredTools = new Map<string, ToolHandler>()
 
-vi.mock('@modelcontextprotocol/sdk/server/mcp.js', () => ({
-  McpServer: vi.fn().mockImplementation(() => ({
-    tool: vi.fn((name: string, _desc: string, _schema: unknown, handler: ToolHandler) => {
+// vi.hoisted: runs before vi.mock hoisting, giving us shared state accessible
+// both inside the mock factory and in the test bodies
+const { registeredTools } = vi.hoisted(() => {
+  const registeredTools = new Map<string, ToolHandler>()
+  return { registeredTools }
+})
+
+vi.mock('@modelcontextprotocol/sdk/server/mcp.js', () => {
+  // Use a real constructor function (not arrow) so `new McpServer()` works
+  function McpServer() {
+    (this as { tool: unknown }).tool = (
+      name: string,
+      _desc: string,
+      _schema: unknown,
+      handler: ToolHandler
+    ) => {
       registeredTools.set(name, handler)
-    })
-  }))
-}))
+    }
+  }
+  return { McpServer }
+})
 
 vi.mock('../../browser/manager')
 vi.mock('fs')
@@ -19,7 +32,6 @@ vi.mock('path')
 import * as fs from 'fs'
 import * as path from 'path'
 import { createMcpServer } from '../server'
-import { BrowserManager } from '../../browser/manager'
 
 function makeMockBrowser(ready = true): BrowserManager {
   return {
