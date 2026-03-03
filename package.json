@@ -23,16 +23,20 @@
         "title": "code2vision: Open Preview Panel"
       },
       {
-        "command": "code2vision.startMcpServer",
-        "title": "code2vision: Start MCP Server"
-      },
-      {
-        "command": "code2vision.stopMcpServer",
-        "title": "code2vision: Stop MCP Server"
+        "command": "code2vision.setupMcp",
+        "title": "code2vision: Setup .mcp.json for this workspace"
       },
       {
         "command": "code2vision.showLogs",
         "title": "code2vision: Show Browser Logs"
+      },
+      {
+        "command": "code2vision.installPlaywright",
+        "title": "code2vision: Install Playwright Browser"
+      },
+      {
+        "command": "code2vision.openWalkthrough",
+        "title": "code2vision: Getting Started"
       }
     ],
     "configuration": {
@@ -54,7 +58,59 @@
           "description": "Maximum QA loop iterations before requesting human intervention"
         }
       }
-    }
+    },
+    "walkthroughs": [
+      {
+        "id": "code2vision.gettingStarted",
+        "title": "Get started with code2vision",
+        "description": "Give Claude Code visual access to your browser for pixel-perfect QA.",
+        "steps": [
+          {
+            "id": "installBrowser",
+            "title": "Install the browser engine",
+            "description": "code2vision uses Playwright to capture screenshots and console logs. Install the Chromium browser engine to get started.\n\n[Install Playwright Chromium](command:code2vision.installPlaywright)",
+            "media": {
+              "markdown": "walkthroughs/step1.md"
+            },
+            "completionEvents": ["onCommand:code2vision.installPlaywright"]
+          },
+          {
+            "id": "openProject",
+            "title": "Open your project & start the dev server",
+            "description": "Open your frontend project in VS Code and start your dev server.\n\n```\nnpm run dev\n```\n\nBy default code2vision looks for **http://localhost:5173**. You can change this in Settings → code2vision.devServerUrl.",
+            "media": {
+              "markdown": "walkthroughs/step2.md"
+            }
+          },
+          {
+            "id": "setupMcp",
+            "title": "Connect Claude Code (add .mcp.json)",
+            "description": "This adds code2vision as an MCP server so Claude Code can call `take_screenshot()`, `get_console_logs()` and more.\n\n[Setup .mcp.json](command:code2vision.setupMcp)\n\nThen **restart Claude Code** in your project folder.",
+            "media": {
+              "markdown": "walkthroughs/step3.md"
+            },
+            "completionEvents": ["onCommand:code2vision.setupMcp"]
+          },
+          {
+            "id": "openPanel",
+            "title": "Open the Preview Panel",
+            "description": "Open the code2vision panel to see your app render and console logs live.\n\n[Open Preview Panel](command:code2vision.openPreview)",
+            "media": {
+              "markdown": "walkthroughs/step4.md"
+            },
+            "completionEvents": ["onCommand:code2vision.openPreview"]
+          },
+          {
+            "id": "startClaude",
+            "title": "Start the QA loop with Claude Code",
+            "description": "Run Claude Code in your project and give it a prompt like:\n\n```\nUse take_screenshot() to see the current render,\nthen implement [your feature] and keep capturing\nuntil it matches the design.\n```\n\nClaude will iterate automatically — editing code, waiting for hot-reload, and capturing screenshots until pixel-perfect.",
+            "media": {
+              "markdown": "walkthroughs/step5.md"
+            }
+          }
+        ]
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run build",

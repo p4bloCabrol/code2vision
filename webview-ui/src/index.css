@@ -9,42 +9,125 @@ body {
   font-size: var(--vscode-font-size);
   color: var(--vscode-foreground);
   background: var(--vscode-editor-background);
+  height: 100vh;
+  overflow: hidden;
 }
 
+/* ── Layout ── */
 .app {
   display: flex;
-  flex-direction: column;
   height: 100vh;
-  padding: 12px;
-  gap: 12px;
+  gap: 0;
 }
 
-.app-header h1 {
-  font-size: 14px;
-  font-weight: 600;
+.app-preview {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--vscode-panel-border);
+}
+
+.app-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* ── Preview Frame ── */
+.preview-frame {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.preview-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  background: var(--vscode-titleBar-activeBackground, var(--vscode-editor-background));
+  flex-shrink: 0;
+}
+
+.preview-url {
+  flex: 1;
+  font-size: 11px;
+  font-family: var(--vscode-editor-font-family);
+  color: var(--vscode-descriptionForeground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.preview-refresh {
+  background: none;
+  border: none;
+  color: var(--vscode-descriptionForeground);
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.preview-refresh:hover {
   color: var(--vscode-foreground);
 }
 
-.app-main {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.preview-body {
+  position: relative;
   flex: 1;
   overflow: hidden;
 }
 
-/* Status Panel */
+.preview-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #fff;
+  transition: opacity 0.2s;
+}
+
+.preview-loading,
+.preview-error {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--vscode-descriptionForeground);
+  pointer-events: none;
+}
+
+.preview-error {
+  color: var(--vscode-charts-red);
+}
+
+.preview-error-hint {
+  font-size: 11px;
+  color: var(--vscode-descriptionForeground);
+}
+
+/* ── Status Panel ── */
 .status-panel {
   padding: 10px;
-  border: 1px solid var(--vscode-panel-border);
-  border-radius: 4px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+  flex-shrink: 0;
 }
 
 .status-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .status-dot {
@@ -62,26 +145,29 @@ body {
 .status-iteration {
   font-size: 11px;
   color: var(--vscode-descriptionForeground);
+  margin-left: auto;
 }
 
 .status-url {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--vscode-descriptionForeground);
   font-family: var(--vscode-editor-font-family);
-  margin-bottom: 4px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .status-message {
-  font-size: 12px;
+  font-size: 11px;
+  color: var(--vscode-foreground);
 }
 
-/* Logs Panel */
+/* ── Logs Panel ── */
 .logs-panel {
   display: flex;
   flex-direction: column;
   flex: 1;
-  border: 1px solid var(--vscode-panel-border);
-  border-radius: 4px;
   overflow: hidden;
 }
 
@@ -93,6 +179,7 @@ body {
   border-bottom: 1px solid var(--vscode-panel-border);
   font-size: 11px;
   font-weight: 600;
+  flex-shrink: 0;
 }
 
 .logs-header button {
@@ -101,7 +188,7 @@ body {
   color: var(--vscode-descriptionForeground);
   cursor: pointer;
   font-size: 11px;
-  padding: 2px 6px;
+  padding: 2px 4px;
 }
 
 .logs-header button:hover {
@@ -111,28 +198,37 @@ body {
 .logs-body {
   flex: 1;
   overflow-y: auto;
-  padding: 6px;
+  padding: 4px;
   font-family: var(--vscode-editor-font-family);
   font-size: 11px;
 }
 
 .logs-empty {
   color: var(--vscode-descriptionForeground);
-  padding: 8px;
+  padding: 12px 8px;
+  text-align: center;
 }
 
 .log-entry {
   display: flex;
-  gap: 6px;
-  padding: 2px 0;
-  border-bottom: 1px solid var(--vscode-panel-border);
+  gap: 4px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  word-break: break-word;
+}
+
+.log-entry:hover {
+  background: var(--vscode-list-hoverBackground);
 }
 
 .log-level {
   flex-shrink: 0;
   opacity: 0.7;
+  font-size: 10px;
+  padding-top: 1px;
 }
 
 .log-message {
-  word-break: break-word;
+  flex: 1;
+  word-break: break-all;
 }

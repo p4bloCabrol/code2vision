@@ -9,4 +9,10 @@ webview-ui/tsconfig.json
 tsconfig.json
 mcp.json
 **/*.map
-node_modules/**
+node_modules/@types/**
+node_modules/typescript/**
+node_modules/esbuild/**
+node_modules/eslint/**
+node_modules/@typescript-eslint/**
+node_modules/vitest/**
+node_modules/@vscode/vsce/**

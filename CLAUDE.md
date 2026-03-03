@@ -7,11 +7,16 @@
 **Claude Code is the agent. The plugin is the data provider.**
 
 ```
-Design (Figma MCP) ──┐
-                      ├──→ Claude Code (agent) → edits files → dev server reloads
-Browser render ───────┘         ↑
-Console logs ─────────────── code2vision MCP Server (this plugin)
+Design source (any) ──┐
+                       ├──→ Claude Code (agent) → edits files → dev server reloads
+Browser render ────────┘         ↑
+Console logs ──────────────── code2vision MCP Server (this plugin)
 ```
+
+**Design sources supported (pick any):**
+- Figma MCP — when Figma Pro is available
+- Local image — `load_reference_image(path)`, export from any tool (Figma free, Penpot, Zeplin, Stitch...)
+- Other MCPs — Penpot, Zeplin, Stitch, etc. just add them to `.mcp.json`
 
 ## Core Architecture
 

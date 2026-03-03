@@ -1,6 +1,8 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod'
+import * as fs from 'fs'
+import * as path from 'path'
 import { BrowserManager } from '../browser/manager'
 
 export function createMcpServer(browser: BrowserManager): McpServer {
@@ -100,6 +102,55 @@ export function createMcpServer(browser: BrowserManager): McpServer {
 
       return {
         content: [{ type: 'text' as const, text: `Navigated to ${url}` }]
+      }
+    }
+  )
+
+  // --- load_reference_image ---
+  server.tool(
+    'load_reference_image',
+    `Loads a local design reference image (PNG, JPG, WEBP) so Claude can compare it against the browser render.
+Use this when the design reference comes from a local file (exported from Figma, Penpot, Zeplin, Stitch, or any other tool).
+Returns the image as base64 so Claude can visually diff it against take_screenshot().`,
+    {
+      filePath: z.string().describe('Absolute or workspace-relative path to the reference image file')
+    },
+    async ({ filePath }) => {
+      const resolved = path.isAbsolute(filePath) ? filePath : path.resolve(process.cwd(), filePath)
+
+      if (!fs.existsSync(resolved)) {
+        return {
+          content: [{ type: 'text' as const, text: `Error: file not found at ${resolved}` }],
+          isError: true
+        }
+      }
+
+      const ext = path.extname(resolved).toLowerCase()
+      const mimeMap: Record<string, string> = {
+        '.png': 'image/png',
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.webp': 'image/webp'
+      }
+      const mimeType = mimeMap[ext]
+      if (!mimeType) {
+        return {
+          content: [{ type: 'text' as const, text: `Error: unsupported format ${ext}. Use PNG, JPG or WEBP.` }],
+          isError: true
+        }
+      }
+
+      const buffer = fs.readFileSync(resolved)
+      const base64 = buffer.toString('base64')
+
+      return {
+        content: [
+          {
+            type: 'image' as const,
+            data: base64,
+            mimeType
+          }
+        ]
       }
     }
   )
