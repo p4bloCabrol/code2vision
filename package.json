@@ -7,14 +7,24 @@
   "engines": {
     "vscode": "^1.85.0"
   },
-  "categories": ["Other"],
-  "keywords": ["claude", "qa", "visual testing", "figma", "mcp"],
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "claude",
+    "qa",
+    "visual testing",
+    "figma",
+    "mcp"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/p4bloCabrol/code2vision.git"
   },
   "license": "MIT",
-  "activationEvents": ["onStartupFinished"],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
@@ -72,7 +82,9 @@
             "media": {
               "markdown": "walkthroughs/step1.md"
             },
-            "completionEvents": ["onCommand:code2vision.installPlaywright"]
+            "completionEvents": [
+              "onCommand:code2vision.installPlaywright"
+            ]
           },
           {
             "id": "openProject",
@@ -89,7 +101,9 @@
             "media": {
               "markdown": "walkthroughs/step3.md"
             },
-            "completionEvents": ["onCommand:code2vision.setupMcp"]
+            "completionEvents": [
+              "onCommand:code2vision.setupMcp"
+            ]
           },
           {
             "id": "openPanel",
@@ -98,7 +112,9 @@
             "media": {
               "markdown": "walkthroughs/step4.md"
             },
-            "completionEvents": ["onCommand:code2vision.openPreview"]
+            "completionEvents": [
+              "onCommand:code2vision.openPreview"
+            ]
           },
           {
             "id": "startClaude",
@@ -121,6 +137,11 @@
     "watch:extension": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --external:playwright --format=cjs --platform=node --watch",
     "watch:webview": "cd webview-ui && npm run dev",
     "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:extension": "vitest run --project extension",
+    "test:webview": "vitest run --project webview-ui",
+    "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext ts"
   },
   "devDependencies": {
@@ -128,8 +149,10 @@
     "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
+    "@vitest/coverage-v8": "^4.0.18",
     "esbuild": "^0.20.0",
     "eslint": "^8.0.0",
+    "jsdom": "^28.1.0",
     "typescript": "^5.3.0",
     "vitest": "^1.0.0"
   },
